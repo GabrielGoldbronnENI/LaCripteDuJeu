@@ -7,9 +7,9 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="p-5">
-<h1 class="text-3xl font-bold underline">Liste des produits</h1>
+<h1 class="text-3xl font-bold underline">Liste des exemplaires</h1>
 <a href="/" class="btn btn-primary">Accueil</a>
-<a th:href="@{copy-add}" class="btn btn-primary">Nouveau produit</a>
+<a th:href="@{copy-add}" class="btn btn-primary">Nouvel exemplaire</a>
 <button id="btnSwitch" class="btn btn-primary">Changer de thème</button>
 
 <form action="/copies" method="get" class="d-flex gap-3 align-items-end">
@@ -43,7 +43,7 @@
         <td th:text="${copy.productDetails.title}" class="cell100 column2"></td>
         <td class="cell100 column2">
             <a th:href="@{/copies/{copyID}(copyID=${copy.copyID})}" class="btn btn-primary">Détails</a>
-            <a th:href="@{/copies/delete/{copyID}(copyID=${copy.copyID})}" class="btn btn-danger">Supprimer le produit</a>
+            <a th:href="@{/copies/delete/{copyID}(copyID=${copy.copyID})}" class="btn btn-danger">Supprimer l'exemplaire</a>
         </td>
     </tr>
     </tbody>
