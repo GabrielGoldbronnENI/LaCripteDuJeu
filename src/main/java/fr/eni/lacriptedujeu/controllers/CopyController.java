@@ -43,7 +43,14 @@ public class CopyController {
             return "copy-add";
         }
 
-        copyService.save(copy);
+        try {
+            copyService.save(copy);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("copy", copy);
+            return "copy-add";
+        }
+
         logger.info("Copy created successfully: {}", copy);
 
         return "redirect:/copies";

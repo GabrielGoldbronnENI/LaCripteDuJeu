@@ -24,8 +24,10 @@ public class CopyServiceImpl implements CopyService {
         try {
             copyRepository.save(copy);
         } catch (DataIntegrityViolationException e) {
-            String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
-            throw new RuntimeException("Erreur lors de la sauvegarde de la copie: " + errorMessage);
+            if (e.getRootCause() != null && e.getRootCause().getMessage().contains("barcode")) {
+                throw new RuntimeException("Une copie avec ce code-barres existe déjà.");
+            }
+            throw new RuntimeException("Erreur lors de la sauvegarde de la copie: " + e);
         }
     }
 

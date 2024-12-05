@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users
     first_name VARCHAR(50)  NOT NULL,
     last_name  VARCHAR(50)  NOT NULL,
     email      VARCHAR(255) NOT NULL UNIQUE,
-    phone      VARCHAR(10)  NOT NULL UNIQUE,
+    phone      VARCHAR(10)  NOT NULL,
     address    VARCHAR(255),
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP

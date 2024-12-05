@@ -27,13 +27,10 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
-
             if (errorMessage.contains("email")) {
                 throw new RuntimeException("L'email est déjà utilisé !");
-            } else if (errorMessage.contains("phone")) {
-                throw new RuntimeException("Le numéro de téléphone est déjà utilisé !");
-            } else {
-                throw new RuntimeException("L'email ou le téléphone est déjà utilisé !");
+            }  else {
+                throw new RuntimeException(errorMessage);
             }
         }
     }
@@ -52,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     public void update(int userID, User user) {
         try {
-            userRepository.update(userID,user);
+            userRepository.update(userID, user);
 
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
