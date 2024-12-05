@@ -68,10 +68,14 @@ public class CopyController {
         List<String> filters = new ArrayList<>();
         if (productID != null) {
             filters.add(String.valueOf(productID));
+        } else {
+            filters.add("");
         }
 
         if (status != null) {
             filters.add(String.valueOf(status));
+        } else {
+            filters.add("");
         }
 
         model.addAttribute("copies", copyService.getAll(filters));

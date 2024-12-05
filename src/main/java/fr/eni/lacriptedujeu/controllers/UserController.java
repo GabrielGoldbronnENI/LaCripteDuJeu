@@ -50,18 +50,11 @@ public class UserController {
             Model model
     ) {
         List<String> filter = new ArrayList<>();
-        if (firstName != null) {
-            filter.add(firstName);
-        }
-        if (lastName != null) {
-            filter.add(lastName);
-        }
-        if (email != null) {
-            filter.add(email);
-        }
-        if (phone != null) {
-            filter.add(phone);
-        }
+
+        filter.add(firstName);
+        filter.add(lastName);
+        filter.add(email);
+        filter.add(phone);
 
         model.addAttribute("users", userService.getAll(filter));
         return "users";

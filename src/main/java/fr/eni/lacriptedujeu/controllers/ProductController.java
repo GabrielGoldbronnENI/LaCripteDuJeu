@@ -76,11 +76,11 @@ public class ProductController {
         model.addAttribute("title", title);
 
         List<String> filter = new ArrayList<>();
-        if (title != null) {
-            filter.add(title);
-        }
+        filter.add(title);
         if (ageLimit != null) {
             filter.add(String.valueOf(ageLimit));
+        } else {
+            filter.add("");
         }
 
         model.addAttribute("products", productService.getAll(filter));
