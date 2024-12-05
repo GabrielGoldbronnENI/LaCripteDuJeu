@@ -18,6 +18,7 @@
                    th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid'">
             <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
                 <span th:errors="*{__${fieldName}__}"></span>
+                <!-- *{__${fieldName}__} == *{fieldName} -->
             </div>
         </div>
 
