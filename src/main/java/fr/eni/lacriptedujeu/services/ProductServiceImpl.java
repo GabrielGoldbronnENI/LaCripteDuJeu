@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.services;
 
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
 import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Product;
 import fr.eni.lacriptedujeu.repositorys.ProductRepository;
@@ -52,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public void delete(int productID) {
-        productRepository.delete(productID);
+        try {
+            productRepository.delete(productID);
+        } catch (NotFoundException | LinkedException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Une erreur inattendue s'est produite lors de la suppression : " + e.getMessage());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package fr.eni.lacriptedujeu.repositorys;
 
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
+import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Copy;
 import fr.eni.lacriptedujeu.rowMapper.CopyRowMapper;
 import org.slf4j.Logger;
@@ -84,11 +86,16 @@ public class CopyRepositoryImpl implements CopyRepository {
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, copyID);
 
         if (count != null && count > 0) {
-            throw new RuntimeException("L'exemplaire ne peut pas être supprimée car elle est liée à une location active.");
+            throw new LinkedException("L'exemplaire ne peut pas être supprimée car elle est liée à une location active.");
         }
 
         String deleteQuery = "DELETE FROM copy WHERE copy_id = ?";
-        jdbcTemplate.update(deleteQuery, copyID);
+        int rowsAffected = jdbcTemplate.update(deleteQuery, copyID);
+
+        if (rowsAffected == 0) {
+            throw new NotFoundException("L'utilisateur avec l'ID " + copyID + " est introuvable.");
+        }
+
         logger.info("Copy deleted with ID: {}", copyID);
     }
 }

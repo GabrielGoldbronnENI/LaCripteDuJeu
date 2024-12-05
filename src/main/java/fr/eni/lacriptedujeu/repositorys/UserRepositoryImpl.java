@@ -1,5 +1,7 @@
 package fr.eni.lacriptedujeu.repositorys;
 
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
+import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.User;
 import fr.eni.lacriptedujeu.rowMapper.UserRowMapper;
 import fr.eni.lacriptedujeu.utils.PhoneNumberUtils;
@@ -80,20 +82,23 @@ public class UserRepositoryImpl implements UserRepository {
 
     public void delete(int userID) {
         String checkQuery = """
-                    SELECT COUNT(*) 
-                    FROM location l 
-                    JOIN rental_status_location rsl ON l.location_id = rsl.location_id
-                    WHERE l.user_id = ? AND rsl.rental_status_id = 1
-                """;
+                SELECT COUNT(*) 
+                FROM location l 
+                JOIN rental_status_location rsl ON l.location_id = rsl.location_id
+                WHERE l.user_id = ? AND rsl.rental_status_id = 1
+            """;
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, userID);
 
         if (count != null && count > 0) {
-            throw new RuntimeException("L'utilisateur ne peut pas être supprimé car il a une location en cours.");
+            throw new LinkedException("L'utilisateur ne peut pas être supprimé car il a une location en cours.");
         }
 
-
         String deleteQuery = "DELETE FROM users WHERE user_id = ?";
-        jdbcTemplate.update(deleteQuery, userID);
+        int rowsAffected = jdbcTemplate.update(deleteQuery, userID);
+
+        if (rowsAffected == 0) {
+            throw new NotFoundException("L'utilisateur avec l'ID " + userID + " est introuvable.");
+        }
     }
 
 }

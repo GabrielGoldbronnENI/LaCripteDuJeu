@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.services;
 
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
 import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Copy;
 import fr.eni.lacriptedujeu.repositorys.CopyRepository;
@@ -19,7 +20,6 @@ public class CopyServiceImpl implements CopyService {
         this.copyRepository = copyRepository;
     }
 
-    @Override
     public void save(Copy copy) {
         try {
             copyRepository.save(copy);
@@ -29,12 +29,10 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
-    @Override
     public List<Copy> getAll(List<String> filters) {
         return copyRepository.getAll(filters);
     }
 
-    @Override
     public Copy getById(int copyID) {
         Copy copy = copyRepository.getById(copyID);
         if (copy == null) {
@@ -43,7 +41,6 @@ public class CopyServiceImpl implements CopyService {
         return copy;
     }
 
-    @Override
     public void update(int copyID, Copy copy) {
         try {
             copyRepository.update(copyID, copy);
@@ -53,12 +50,13 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
-    @Override
     public void delete(int copyID) {
         try {
             copyRepository.delete(copyID);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Erreur lors de la suppression de la copie: " + e.getMessage());
+        } catch (NotFoundException | LinkedException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Une erreur inattendue s'est produite lors de la suppression de l'exemplaire : " + e.getMessage());
         }
     }
 }

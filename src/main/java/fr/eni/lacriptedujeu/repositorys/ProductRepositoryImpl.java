@@ -1,6 +1,8 @@
 package fr.eni.lacriptedujeu.repositorys;
 
 import fr.eni.lacriptedujeu.controllers.ProductController;
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
+import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Genre;
 import fr.eni.lacriptedujeu.models.Product;
 import fr.eni.lacriptedujeu.rowMapper.ProductRowMapper;
@@ -115,11 +117,15 @@ public class ProductRepositoryImpl implements ProductRepository {
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, productID);
 
         if (count != null && count > 0) {
-            throw new RuntimeException("Le produit ne peut pas être supprimé car il a une location en cours.");
+            throw new LinkedException("Le produit ne peut pas être supprimé car il a une location en cours.");
         }
 
         String deleteQuery = "DELETE FROM products WHERE product_id = ?";
-        jdbcTemplate.update(deleteQuery, productID);
+        int rowsAffected = jdbcTemplate.update(deleteQuery, productID);
+
+        if (rowsAffected == 0) {
+            throw new NotFoundException("L'utilisateur avec l'ID " + productID + " est introuvable.");
+        }
     }
 
 }

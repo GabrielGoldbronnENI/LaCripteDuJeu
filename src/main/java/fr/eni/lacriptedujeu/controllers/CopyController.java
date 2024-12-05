@@ -31,7 +31,6 @@ public class CopyController {
 
     @PostMapping
     public String createCopy(@ModelAttribute @Valid Copy copy, BindingResult bindingResult, Model model) {
-
         model.addAttribute("products", productService.getAll(null));
         logger.info("Creating copy: {}", copy);
 
@@ -44,17 +43,8 @@ public class CopyController {
             return "copy-add";
         }
 
-        try {
-            copyService.save(copy);
-            logger.info("Copy created successfully: {}", copy);
-
-        } catch (Exception e) {
-            logger.error("Error occurred while saving copy: {}", copy, e);
-
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("copy", copy);
-            return "copy-add";
-        }
+        copyService.save(copy);
+        logger.info("Copy created successfully: {}", copy);
 
         return "redirect:/copies";
     }
@@ -87,12 +77,6 @@ public class CopyController {
         Copy copy = copyService.getById(copyID);
         model.addAttribute("copy", copy);
 
-        if (copy != null) {
-            logger.info("Copy found: {}", copy);
-        } else {
-            logger.error("Copy with ID {} not found", copyID);
-        }
-
         return "copy";
     }
 
@@ -104,28 +88,17 @@ public class CopyController {
             return "copy";
         }
 
-        try {
-            copyService.update(copyID, copy);
-            logger.info("Copy updated successfully: {}", copy);
-        } catch (Exception e) {
-            logger.error("Error occurred while updating copy: {}", copy, e);
-            model.addAttribute("errorMessage", e.getMessage());
-            return "copy";
-        }
+        copyService.update(copyID, copy);
+        logger.info("Copy updated successfully: {}", copy);
 
         return "redirect:/copies";
     }
 
     @GetMapping("/delete/{copyID}")
     public String deleteCopy(@PathVariable int copyID) {
-        try {
-            logger.info("Deleting copy with ID: {}", copyID);
-            copyService.delete(copyID);
-            logger.info("Copy deleted successfully: {}", copyID);
-        } catch (Exception e) {
-            logger.error("Error occurred while deleting copy with ID: {}", copyID, e);
-            throw new RuntimeException("Erreur lors de la suppression de la copie: " + e.getMessage());
-        }
+        logger.info("Deleting copy with ID: {}", copyID);
+        copyService.delete(copyID);
+        logger.info("Copy deleted successfully: {}", copyID);
 
         return "redirect:/copies";
     }

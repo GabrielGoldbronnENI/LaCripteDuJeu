@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.services;
 
+import fr.eni.lacriptedujeu.exceptions.LinkedException;
 import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.User;
 import fr.eni.lacriptedujeu.repositorys.UserRepository;
@@ -67,6 +68,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public void delete(int userID) {
-        userRepository.delete(userID);
+        try {
+            userRepository.delete(userID);
+        } catch (NotFoundException | LinkedException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Une erreur inattendue s'est produite lors de la suppression de l'utilisateur : " + e.getMessage());
+        }
     }
 }
