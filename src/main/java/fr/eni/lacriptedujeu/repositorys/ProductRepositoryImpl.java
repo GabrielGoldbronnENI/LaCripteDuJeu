@@ -105,6 +105,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     public void delete(int productID) {
+
+        String checkQuery = """
+                    SELECT COUNT(*) 
+                    FROM location l 
+                    JOIN rental_status_location rsl ON l.location_id = rsl.location_id
+                    WHERE l.product_id = ? AND rsl.rental_status_id = 1
+                """;
+        Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, productID);
+
+        if (count != null && count > 0) {
+            throw new RuntimeException("Le produit ne peut pas être supprimé car il a une location en cours.");
+        }
+
         String deleteQuery = "DELETE FROM products WHERE product_id = ?";
         jdbcTemplate.update(deleteQuery, productID);
     }

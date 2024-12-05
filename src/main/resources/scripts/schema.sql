@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS users
     updatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
 CREATE TABLE IF NOT EXISTS age_limit
 (
     age_limit_id SERIAL PRIMARY KEY,
@@ -43,9 +42,8 @@ CREATE TABLE IF NOT EXISTS products
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     age_limit  INT            NOT NULL,
-    CONSTRAINT fk_product_age_limit FOREIGN KEY (age_limit) REFERENCES age_limit (age_limit_id)
+    CONSTRAINT fk_product_age_limit FOREIGN KEY (age_limit) REFERENCES age_limit (age_limit_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE IF NOT EXISTS genre
 (
@@ -62,7 +60,7 @@ CREATE TABLE IF NOT EXISTS copy
     createdAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     product_id INT  NOT NULL,
-    CONSTRAINT fk_copy_product FOREIGN KEY (product_id) REFERENCES products (product_id)
+    CONSTRAINT fk_copy_product FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS location
@@ -74,8 +72,8 @@ CREATE TABLE IF NOT EXISTS location
     updatedAt   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     product_id  INT            NOT NULL,
     user_id     INT            NOT NULL,
-    CONSTRAINT fk_location_product FOREIGN KEY (product_id) REFERENCES products (product_id),
-    CONSTRAINT fk_location_user FOREIGN KEY (user_id) REFERENCES users (user_id)
+    CONSTRAINT fk_location_product FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE,
+    CONSTRAINT fk_location_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS rental_status
@@ -139,9 +137,3 @@ CREATE TABLE IF NOT EXISTS product_age_limit
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE,
     CONSTRAINT fk_age_limit FOREIGN KEY (age_limit_id) REFERENCES age_limit (age_limit_id) ON DELETE CASCADE
 );
-
-ALTER TABLE location
-DROP CONSTRAINT fk_location_user,
-ADD CONSTRAINT fk_location_user FOREIGN KEY (user_id)
-REFERENCES users (user_id)
-ON DELETE CASCADE;

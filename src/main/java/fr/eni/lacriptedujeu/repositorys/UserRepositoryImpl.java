@@ -79,7 +79,6 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     public void delete(int userID) {
-        // Vérifier si l'utilisateur a une location en cours (rental_status_id = 1)
         String checkQuery = """
                     SELECT COUNT(*) 
                     FROM location l 
