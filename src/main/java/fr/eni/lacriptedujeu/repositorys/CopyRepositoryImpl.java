@@ -35,18 +35,19 @@ public class CopyRepositoryImpl implements CopyRepository {
         StringBuilder sql = new StringBuilder("SELECT * FROM copy WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
-        String[] columns = {"status", "product_id"};
+        String[] columns = {"product_id", "status"};
 
+        logger.info("Getting all filters: {}", filters);
         if (filters != null && !filters.isEmpty()) {
             for (int i = 0; i < filters.size(); i++) {
                 String filter = filters.get(i);
                 if (filter != null && !filter.isEmpty()) {
-                    if ("status".equals(columns[i])) {
-                        sql.append(" AND ").append(columns[i]).append(" = ?");
-                        params.add(Boolean.parseBoolean(filter));
-                    } else if ("product_id".equals(columns[i])) {
+                    if ("product_id".equals(columns[i])) {
                         sql.append(" AND ").append(columns[i]).append(" = ?");
                         params.add(Integer.parseInt(filter));
+                    }else if ("status".equals(columns[i])) {
+                        sql.append(" AND ").append(columns[i]).append(" = ?");
+                        params.add(Boolean.parseBoolean(filter));
                     }
                 }
             }
@@ -54,6 +55,7 @@ public class CopyRepositoryImpl implements CopyRepository {
 
         return jdbcTemplate.query(sql.toString(), new CopyRowMapper(jdbcTemplate), params.toArray());
     }
+
 
     public Copy getById(int copyID) {
         String sql = "SELECT * FROM copy WHERE copy_id = ?";
@@ -77,11 +79,11 @@ public class CopyRepositoryImpl implements CopyRepository {
 
     public void delete(int copyID) {
         String checkQuery = """
-            SELECT COUNT(*) 
-            FROM location l 
-            JOIN copy_location cl ON l.location_id = cl.location_id
-            WHERE cl.copy_id = ? AND l.status = 1
-            """;
+                SELECT COUNT(*) 
+                FROM location l 
+                JOIN copy_location cl ON l.location_id = cl.location_id
+                WHERE cl.copy_id = ? AND l.status = 1
+                """;
 
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, copyID);
 

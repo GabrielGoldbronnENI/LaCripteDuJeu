@@ -62,14 +62,16 @@ public class CopyController {
             @RequestParam(required = false) Integer productID,
             Model model
     ) {
+        model.addAttribute("products", productService.getAll(null));
         logger.info("Getting all copies with filters - status: {}, productID: {}", status, productID);
 
         List<String> filters = new ArrayList<>();
-        if (status != null) {
-            filters.add(String.valueOf(status));
-        }
         if (productID != null) {
             filters.add(String.valueOf(productID));
+        }
+
+        if (status != null) {
+            filters.add(String.valueOf(status));
         }
 
         model.addAttribute("copies", copyService.getAll(filters));
