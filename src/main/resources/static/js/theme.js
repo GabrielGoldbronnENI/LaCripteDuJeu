@@ -39,3 +39,10 @@ document.getElementById('btnSwitch').addEventListener('click', () => {
     // Sauvegarder le nouveau thème dans un cookie
     setCookie("theme", newTheme, 7); // Le cookie expirera dans 7 jours
 });
+
+
+function updateStatusText() {
+    const checkbox = document.getElementById('status');
+    const statusText = document.getElementById('statusText');
+    statusText.innerText = checkbox.checked ? 'Disponible' : 'Non Disponible';
+}

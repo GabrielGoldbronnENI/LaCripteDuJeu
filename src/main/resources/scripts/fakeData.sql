@@ -34,13 +34,13 @@ VALUES
     ('Game 5', '1 hour', 14.99, 5);
 
 -- Table copy
-INSERT INTO copy (status, product_id)
+INSERT INTO copy (barcode,status, product_id)
 VALUES
-    (TRUE, 1),
-    (FALSE, 2),
-    (TRUE, 3),
-    (TRUE, 4),
-    (FALSE, 5);
+    ('1515151515151',TRUE, 1),
+    ('1515151515152',FALSE, 2),
+    ('1515151515153',TRUE, 3),
+    ('1515151515154',TRUE, 4),
+    ('1515151515155',FALSE, 5);
 
 -- Table rental_status
 INSERT INTO rental_status (label)

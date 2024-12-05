@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.controllers;
 
+import fr.eni.lacriptedujeu.models.Copy;
 import fr.eni.lacriptedujeu.models.Product;
 import fr.eni.lacriptedujeu.models.User;
 import fr.eni.lacriptedujeu.services.AgeLimitService;
@@ -15,11 +16,13 @@ public class PageController {
 
     private final AgeLimitService ageLimitService;
     private final GenreService genreService;
+    private final ProductService productService;
 
     @Autowired
-    public PageController(AgeLimitService ageLimitService, GenreService genreService) {
+    public PageController(AgeLimitService ageLimitService, GenreService genreService, ProductService productService) {
         this.ageLimitService = ageLimitService;
         this.genreService = genreService;
+        this.productService = productService;
     }
 
     @GetMapping("/")
@@ -39,6 +42,14 @@ public class PageController {
         model.addAttribute("genres", genreService.getAll());
         model.addAttribute("product", new Product());
         return "product-add";
+    }
+
+
+    @GetMapping("/copy-add")
+    public String newCopy(Model model) {
+        model.addAttribute("products", productService.getAll(null));
+        model.addAttribute("copy", new Copy());
+        return "copy-add";
     }
 
 

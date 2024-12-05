@@ -1,0 +1,35 @@
+<div th:fragment="formField(copy, products, action, errorMessage)">
+    <form th:action="${action}" method="post" class="d-flex flex-column gap-4" th:object="${copy}">
+        <div th:replace="fragments/error-messages :: errorMessage(${errorMessage})"></div>
+        <div th:replace="fragments/form-field :: formField('barcode', 'Code barre du jeu', 'barcode', '1515151515150', 'text', '')"></div>
+        <div class="form-group form-switch">
+            <input type="checkbox" class="form-check-input" id="status" name="status"
+                   th:checked="*{status}" role="switch" onchange="updateStatusText()" />
+            <small class="form-text text-muted" id="statusText"
+                   th:text="*{status} ? 'Disponible' : 'Non Disponible'"></small>
+            <div th:if="${#fields.hasErrors('status')}" class="invalid-feedback">
+                <span th:errors="*{status}"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="productID" th:text="'Produit associé'"></label>
+            <select class="form-select" id="productID" name="productID"
+                    th:classappend="${#fields.hasErrors('productID')} ? ' is-invalid'">
+                <option th:text="'Veuillez sélectionner un produit'" disabled selected></option>
+                <option th:each="product : ${products}"
+                        th:value="${product.productID}"
+                        th:text="${product.title}"
+                        th:selected="*{productID} == ${product.productID}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('productID')}" class="invalid-feedback">
+                <span th:errors="*{productID}"></span>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+</div>
