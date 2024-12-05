@@ -1,0 +1,63 @@
+2024-12-04T14:42:00.878+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Starting LaCripteDuJeuApplication using Java 17.0.12 with PID 11084 (D:\wsjava\LaCripteDuJeu\build\classes\java\main started by ggoldbronn2024 in D:\wsjava\LaCripteDuJeu)
+2024-12-04T14:42:00.878+01:00 DEBUG 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-04T14:42:00.879+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-12-04T14:42:01.030+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-12-04T14:42:01.033+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-04T14:42:01.033+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-04T14:42:01.047+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-04T14:42:01.047+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 167 ms
+2024-12-04T14:42:01.062+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Starting...
+2024-12-04T14:42:01.109+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-23 - Added connection org.postgresql.jdbc.PgConnection@6b26dd19
+2024-12-04T14:42:01.109+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Start completed.
+2024-12-04T14:42:01.250+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-12-04T14:42:01.300+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-04T14:42:01.308+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/'
+2024-12-04T14:42:01.312+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Started LaCripteDuJeuApplication in 0.465 seconds (process running for 1126.238)
+2024-12-04T14:42:01.313+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-04T14:42:19.835+01:00  INFO 11084 --- [LaCripteDuJeu] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 18 class path changes (0 additions, 0 deletions, 18 modifications)
+2024-12-04T14:42:19.836+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-91] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2024-12-04T14:42:19.915+01:00  INFO 11084 --- [LaCripteDuJeu] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2024-12-04T14:42:19.916+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-91] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Shutdown initiated...
+2024-12-04T14:42:19.919+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-91] com.zaxxer.hikari.HikariDataSource       : HikariPool-23 - Shutdown completed.
+2024-12-04T14:42:19.980+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Starting LaCripteDuJeuApplication using Java 17.0.12 with PID 11084 (D:\wsjava\LaCripteDuJeu\build\classes\java\main started by ggoldbronn2024 in D:\wsjava\LaCripteDuJeu)
+2024-12-04T14:42:19.980+01:00 DEBUG 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-04T14:42:19.980+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-12-04T14:42:20.132+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-12-04T14:42:20.132+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-04T14:42:20.132+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-04T14:42:20.146+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-04T14:42:20.146+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 165 ms
+2024-12-04T14:42:20.165+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Starting...
+2024-12-04T14:42:20.211+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-24 - Added connection org.postgresql.jdbc.PgConnection@68f4405c
+2024-12-04T14:42:20.211+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Start completed.
+2024-12-04T14:42:20.366+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-12-04T14:42:20.419+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-04T14:42:20.427+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/'
+2024-12-04T14:42:20.430+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Started LaCripteDuJeuApplication in 0.469 seconds (process running for 1145.356)
+2024-12-04T14:42:20.431+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-04T14:42:22.834+01:00  INFO 11084 --- [LaCripteDuJeu] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 18 class path changes (0 additions, 0 deletions, 18 modifications)
+2024-12-04T14:42:22.835+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-95] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2024-12-04T14:42:22.904+01:00  INFO 11084 --- [LaCripteDuJeu] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2024-12-04T14:42:22.905+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-95] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Shutdown initiated...
+2024-12-04T14:42:22.909+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-95] com.zaxxer.hikari.HikariDataSource       : HikariPool-24 - Shutdown completed.
+2024-12-04T14:42:22.972+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Starting LaCripteDuJeuApplication using Java 17.0.12 with PID 11084 (D:\wsjava\LaCripteDuJeu\build\classes\java\main started by ggoldbronn2024 in D:\wsjava\LaCripteDuJeu)
+2024-12-04T14:42:22.972+01:00 DEBUG 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-04T14:42:22.972+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : No active profile set, falling back to 1 default profile: "default"
+2024-12-04T14:42:23.169+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-12-04T14:42:23.170+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-04T14:42:23.170+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-04T14:42:23.185+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-04T14:42:23.185+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 212 ms
+2024-12-04T14:42:23.213+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Starting...
+2024-12-04T14:42:23.265+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-25 - Added connection org.postgresql.jdbc.PgConnection@525ffa67
+2024-12-04T14:42:23.266+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Start completed.
+2024-12-04T14:42:23.411+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-12-04T14:42:23.475+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-04T14:42:23.483+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path '/'
+2024-12-04T14:42:23.487+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] f.e.l.LaCripteDuJeuApplication           : Started LaCripteDuJeuApplication in 0.533 seconds (process running for 1148.413)
+2024-12-04T14:42:23.487+01:00  INFO 11084 --- [LaCripteDuJeu] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-12-04T14:42:29.919+01:00  INFO 11084 --- [LaCripteDuJeu] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 18 class path changes (0 additions, 0 deletions, 18 modifications)
+2024-12-04T14:42:29.920+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-99] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2024-12-04T14:42:29.979+01:00  INFO 11084 --- [LaCripteDuJeu] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2024-12-04T14:42:29.981+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-99] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Shutdown initiated...
+2024-12-04T14:42:29.983+01:00  INFO 11084 --- [LaCripteDuJeu] [Thread-99] com.zaxxer.hikari.HikariDataSource       : HikariPool-25 - Shutdown completed.

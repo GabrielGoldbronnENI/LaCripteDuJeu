@@ -1,0 +1,38 @@
+<div th:fragment="formField(product, ageLimits, genres, action, errorMessage)">
+    <form th:action="${action}" method="post" class="d-flex flex-column gap-4" th:object="${product}">
+        <div th:replace="fragments/error-messages :: errorMessage(${errorMessage})"></div>
+        <div th:replace="fragments/form-field :: formField('title', 'Titre du jeu', 'title', 'Titre du jeu', 'text', '')"></div>
+        <div th:replace="fragments/form-field :: formField('playTime', 'Temps de jeu', 'playTime', '1 hour', 'text', '')"></div>
+        <div th:replace="fragments/form-field :: formField('tariff', 'Tarife', 'tariff', '9,99', 'number', '')"></div>
+        <div class="form-group">
+            <label for="ageLimit" th:text="'Limite d\'âge'"></label>
+            <select class="form-select" id="ageLimit" name="ageLimit"
+                    th:classappend="${#fields.hasErrors('ageLimit')} ? ' is-invalid'">
+                <option th:text="'Veuillez sélectionner une limite d\'âge'" disabled selected></option>
+                <option th:each="ageLimit : ${ageLimits}"
+                        th:value="${ageLimit.ageLimitID}"
+                        th:text="${ageLimit.label}"
+                        th:selected="*{ageLimit} == ${ageLimit.ageLimitID}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('ageLimit')}" class="invalid-feedback">
+                <span th:errors="*{ageLimit}"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="genres" th:text="'Genres'"></label>
+            <select class="form-select" style="height: 300px" multiple id="genres" name="genres"
+                    th:classappend="${#fields.hasErrors('genres')} ? ' is-invalid'">
+                <option th:each="genre : ${genres}"
+                        th:value="${genre.genreID}"
+                        th:text="${genre.title}"
+                        th:selected="${product.genresDetails?.contains(genre)}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('genres')}" class="invalid-feedback">
+                <span th:errors="*{genre}"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+</div>

@@ -1,0 +1,5 @@
+<div th:fragment="errorMessage(errorMessage)">
+    <div th:if="${errorMessage}" class="alert alert-danger mt-4">
+        <p th:text="${errorMessage}"></p>
+    </div>
+</div>

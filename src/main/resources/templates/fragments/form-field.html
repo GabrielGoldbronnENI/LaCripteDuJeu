@@ -1,0 +1,30 @@
+<div th:fragment="formField(fieldId, label, fieldName, placeholder, type, options)">
+    <div class="form-group">
+        <label th:for="${fieldId}" th:text="${label}"></label>
+
+        <div th:if="${type == 'text'}">
+            <input type="text" class="form-control" th:id="${fieldId}" th:field="*{__${fieldName}__}"
+                   th:placeholder="${placeholder}"
+                   th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid'">
+            <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
+                <span th:errors="*{__${fieldName}__}"></span>
+            </div>
+        </div>
+
+
+        <div th:if="${type == 'number'}">
+            <input type="number" class="form-control" th:id="${fieldId}" th:field="*{__${fieldName}__}"
+                   th:placeholder="${placeholder}"
+                   th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid'">
+            <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
+                <span th:errors="*{__${fieldName}__}"></span>
+            </div>
+        </div>
+
+        <div th:if="${type == 'static'}" class="form-group">
+            <input type="text" class="form-control" th:id="${fieldId}" th:name="${fieldName}"
+                   th:placeholder="${placeholder}">
+        </div>
+    </div>
+</div>
+
