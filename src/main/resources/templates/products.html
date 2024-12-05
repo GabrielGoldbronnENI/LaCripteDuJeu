@@ -13,7 +13,7 @@
 <button id="btnSwitch" class="btn btn-primary">Changer de thème</button>
 
 <form action="/products" method="get" class="d-flex gap-3 align-items-end">
-    <div th:replace="fragments/form-field :: formField('title', 'Nom du produit', 'title', 'Nom du produit', 'static', '')"></div>
+    <div th:replace="fragments/form-field :: formField('title', 'Nom du produit', 'title', 'Nom du produit', 'static')"></div>
     <div class="form-group">
         <label for="ageLimit" th:text="'Limite d\'âge'"></label>
         <select class="form-select" id="ageLimit" name="ageLimit">

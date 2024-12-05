@@ -13,10 +13,10 @@
 <button id="btnSwitch" class="btn btn-primary">Changer de thème</button>
 
 <form action="/users" method="get" class="d-flex gap-3 align-items-end">
-    <div th:replace="fragments/form-field :: formField('firstName', 'Prénom', 'firstName', 'Prénom du client', 'static', '')"></div>
-    <div th:replace="fragments/form-field :: formField('lastName', 'Nom', 'lastName', 'Nom du client', 'static', '')"></div>
-    <div th:replace="fragments/form-field :: formField('email', 'Email', 'email', 'Email du client', 'static', '')"></div>
-    <div th:replace="fragments/form-field :: formField('phone', 'Téléphone', 'phone', '0606060606', 'static', '')"></div>
+    <div th:replace="fragments/form-field :: formField('firstName', 'Prénom', 'firstName', 'Prénom du client', 'static')"></div>
+    <div th:replace="fragments/form-field :: formField('lastName', 'Nom', 'lastName', 'Nom du client', 'static')"></div>
+    <div th:replace="fragments/form-field :: formField('email', 'Email', 'email', 'Email du client', 'static')"></div>
+    <div th:replace="fragments/form-field :: formField('phone', 'Téléphone', 'phone', '0606060606', 'static')"></div>
     <button type="submit" class="btn btn-primary w-auto h-auto">Filter</button>
     <a href="/users" class="btn btn-primary w-auto h-auto">supprimer les filtres</a>
 </form>

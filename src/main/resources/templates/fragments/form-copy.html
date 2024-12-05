@@ -1,7 +1,7 @@
 <div th:fragment="formField(copy, products, action, errorMessage)">
     <form th:action="${action}" method="post" class="d-flex flex-column gap-4" th:object="${copy}">
         <div th:replace="fragments/error-messages :: errorMessage(${errorMessage})"></div>
-        <div th:replace="fragments/form-field :: formField('barcode', 'Code barre du jeu', 'barcode', '1515151515150', 'text', '')"></div>
+        <div th:replace="fragments/form-field :: formField('barcode', 'Code barre du jeu', 'barcode', '1515151515150', 'text')"></div>
         <div class="form-group form-switch">
             <input type="checkbox" class="form-check-input" id="status" name="status"
                    th:checked="*{status}" role="switch" onchange="updateStatusText()" />
