@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GenreRepository {
     List<Genre> getAll();
+    Genre getById(int genreID);
 }

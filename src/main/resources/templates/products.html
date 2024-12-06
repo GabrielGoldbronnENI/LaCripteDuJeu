@@ -46,9 +46,9 @@
         <td th:text="${product.title}" class="cell100 column2"></td>
         <td th:text="${product.playTime}" class="cell100 column2"></td>
         <td th:text="${product.tariff}" class="cell100 column2"></td>
-        <td th:text="${product.ageLimitDetails.label}" class="cell100 column2"></td>
+        <td th:text="${product.ageLimit.label}" class="cell100 column2"></td>
         <td class="cell100 column2"><ul style="list-style: none; margin: 0; padding: 0;">
-            <li th:each="genre : ${product.genresDetails}" th:text="${genre.title}"></li>
+            <li th:each="genre : ${product.genres}" th:text="${genre.title}"></li>
         </ul></td>
         <td class="cell100 column2">
             <a th:href="@{/products/{productID}(productID=${product.productID})}" class="btn btn-primary">Détails</a>

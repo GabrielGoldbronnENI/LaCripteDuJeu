@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AgeLimitService {
     List<AgeLimit> getAll();
-
+    AgeLimit getById(int ageLimitID);
 }

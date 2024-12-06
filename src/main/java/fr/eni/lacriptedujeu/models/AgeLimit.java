@@ -2,6 +2,8 @@ package fr.eni.lacriptedujeu.models;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Objects;
+
 public class AgeLimit {
 
     private int ageLimitID;
@@ -27,9 +29,21 @@ public class AgeLimit {
 
     @Override
     public String toString() {
-        return "Genre{" +
+        return "AgeLimit{" +
                 "ageLimitID=" + ageLimitID +
                 ", label='" + label + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        AgeLimit ageLimit = (AgeLimit) o;
+        return ageLimitID == ageLimit.ageLimitID && Objects.equals(label, ageLimit.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ageLimitID, label);
     }
 }

@@ -72,7 +72,6 @@ public class ProductController {
     ) {
         model.addAttribute("ageLimits", ageLimitService.getAll());
 
-        System.out.println("getAllProducts ageLimit : " + ageLimit);
         model.addAttribute("title", title);
 
         List<String> filter = new ArrayList<>();

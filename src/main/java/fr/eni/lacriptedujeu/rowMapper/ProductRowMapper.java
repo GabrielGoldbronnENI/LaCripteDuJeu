@@ -25,8 +25,8 @@ public class ProductRowMapper implements RowMapper<Product> {
         product.setTitle(rs.getString("title"));
         product.setPlayTime(rs.getString("play_time"));
         product.setTariff(rs.getBigDecimal("tariff"));
-        product.setAgeLimit(rs.getInt("age_limit"));
 
+        int ageLimitID = rs.getInt("age_limit");
         String ageLimitQuery = """
             SELECT age_limit_id, label
             FROM age_limit
@@ -37,8 +37,8 @@ public class ProductRowMapper implements RowMapper<Product> {
             limit.setAgeLimitID(rsAge.getInt("age_limit_id"));
             limit.setLabel(rsAge.getString("label"));
             return limit;
-        }, product.getAgeLimit());
-        product.setAgeLimitDetails(ageLimit);
+        }, ageLimitID);
+        product.setAgeLimit(ageLimit);
 
 
         String genreQuery = """
@@ -55,15 +55,7 @@ public class ProductRowMapper implements RowMapper<Product> {
             return genre;
         }, product.getProductID());
 
-        product.setGenresDetails(genres);
-
-
-        List<Integer> genreIds = jdbcTemplate.query(genreQuery, (rsGenre, rowNumGenre) ->
-                        rsGenre.getInt("genre_id"),
-                product.getProductID()
-        );
-
-        product.setGenres(genreIds);
+        product.setGenres(genres);
 
         return product;
     }

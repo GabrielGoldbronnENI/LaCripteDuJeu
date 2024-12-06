@@ -46,3 +46,10 @@ function updateStatusText() {
     const statusText = document.getElementById('statusText');
     statusText.innerText = checkbox.checked ? 'Disponible' : 'Non Disponible';
 }
+
+function deselectAllGenres() {
+    const select = document.getElementById('genres');
+    for (let option of select.options) {
+        option.selected = false;
+    }
+}

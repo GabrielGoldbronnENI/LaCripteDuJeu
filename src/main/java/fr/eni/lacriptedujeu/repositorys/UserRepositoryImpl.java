@@ -43,6 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
                 if (filter != null && !filter.isEmpty()) {
                     sql.append(" AND LOWER(").append(columns[i]).append(") LIKE ?");
                     params.add("%" + filter.toLowerCase() + "%");
+//                    "AND LOWER(first_name) LIKE ? %NAME%"
                 }
             }
         }

@@ -3,6 +3,7 @@ package fr.eni.lacriptedujeu.models;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class Product {
 
@@ -21,14 +22,10 @@ public class Product {
     @Digits(integer = 8, fraction = 2, message = "Le tarif doit avoir au maximum 8 chiffres avant la virgule et 2 après")
     private BigDecimal tariff;
 
-    @Min(value = 1, message = "L'âge limite est obligatoire")
-    private int ageLimit;
+    @NotNull(message = "L'âge limite est obligatoire")
+    private AgeLimit ageLimit;
 
-    private AgeLimit ageLimitDetails;
-
-    private List<Integer> genres;
-
-    private List<Genre> genresDetails;
+    private List<Genre> genres;
 
     public int getProductID() {
         return productID;
@@ -62,37 +59,20 @@ public class Product {
         this.tariff = tariff;
     }
 
-    public int getAgeLimit() {
+    public AgeLimit getAgeLimit() {
         return ageLimit;
     }
 
-    public void setAgeLimit(int ageLimit) {
+    public void setAgeLimit(AgeLimit ageLimit) {
         this.ageLimit = ageLimit;
     }
 
-    public AgeLimit getAgeLimitDetails() {
-        return ageLimitDetails;
-    }
-
-    public void setAgeLimitDetails(AgeLimit ageLimitDetails) {
-        this.ageLimitDetails = ageLimitDetails;
-    }
-
-    public List<Integer> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Integer> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
-    }
-
-
-    public List<Genre> getGenresDetails() {
-        return genresDetails;
-    }
-
-    public void setGenresDetails(List<Genre> genresDetails) {
-        this.genresDetails = genresDetails;
     }
 
     @Override
@@ -105,5 +85,17 @@ public class Product {
                 ", ageLimit=" + ageLimit +
                 ", genres=" + genres +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return productID == product.productID && Objects.equals(ageLimit, product.ageLimit) && Objects.equals(genres, product.genres);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productID, ageLimit, genres);
     }
 }

@@ -1,6 +1,5 @@
 package fr.eni.lacriptedujeu.repositorys;
 
-import fr.eni.lacriptedujeu.controllers.ProductController;
 import fr.eni.lacriptedujeu.exceptions.LinkedException;
 import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Genre;
@@ -30,24 +29,24 @@ public class ProductRepositoryImpl implements ProductRepository {
         var playTime = product.getPlayTime() != null ? product.getPlayTime().toLowerCase() : null;
 
         String productSql = "INSERT INTO products(title, play_time, tariff, age_limit) VALUES (?, ?, ?, ?) RETURNING product_id";
-        int productID = jdbcTemplate.queryForObject(productSql, Integer.class, title, playTime, product.getTariff(), product.getAgeLimit());
+        int productID = jdbcTemplate.queryForObject(productSql, Integer.class, title, playTime, product.getTariff(), product.getAgeLimit().getAgeLimitID());
 
-        String insertGenreSql = "INSERT INTO product_genre (product_id, genre_id) VALUES (?, ?)";
-        for (Integer genreId : product.getGenres()) {
-            jdbcTemplate.update(insertGenreSql, productID, genreId);
+        if (product.getGenres() != null) {
+            String insertGenreSql = "INSERT INTO product_genre (product_id, genre_id) VALUES (?, ?)";
+            for (Genre genre : product.getGenres()) {
+                jdbcTemplate.update(insertGenreSql, productID, genre.getGenreID());
+            }
         }
 
         String ageLimitSql = "INSERT INTO product_age_limit(product_id, age_limit_id) VALUES (?, ?)";
-        jdbcTemplate.update(ageLimitSql, productID, product.getAgeLimit());
+        jdbcTemplate.update(ageLimitSql, productID, product.getAgeLimit().getAgeLimitID());
     }
-
 
 
     public List<Product> getAll(List<String> filters) {
         StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
-        // Corresponding columns for filters
         String[] columns = {"title", "age_limit"};
 
         if (filters != null && !filters.isEmpty()) {
@@ -85,15 +84,17 @@ public class ProductRepositoryImpl implements ProductRepository {
         var playTime = product.getPlayTime() != null ? product.getPlayTime().toLowerCase() : null;
 
         String productSql = "UPDATE products SET title = ?, play_time = ?, tariff = ?, age_limit = ? WHERE product_id = ?";
-        jdbcTemplate.update(productSql, title, playTime, product.getTariff(), product.getAgeLimit(), productID);
+        jdbcTemplate.update(productSql, title, playTime, product.getTariff(), product.getAgeLimit().getAgeLimitID(), productID);
 
 
         String deleteGenresSql = "DELETE FROM product_genre WHERE product_id = ?";
         jdbcTemplate.update(deleteGenresSql, productID);
 
-        String insertGenreSql = "INSERT INTO product_genre (product_id, genre_id) VALUES (?, ?)";
-        for (Integer genre : product.getGenres()) {
-            jdbcTemplate.update(insertGenreSql, productID, genre);
+        if (product.getGenres() != null) {
+            String insertGenreSql = "INSERT INTO product_genre (product_id, genre_id) VALUES (?, ?)";
+            for (Genre genre : product.getGenres()) {
+                jdbcTemplate.update(insertGenreSql, productID, genre.getGenreID());
+            }
         }
 
 
@@ -101,9 +102,8 @@ public class ProductRepositoryImpl implements ProductRepository {
         jdbcTemplate.update(deleteAgeLimitSql, productID);
 
         String insertAgeLimitSql = "INSERT INTO product_age_limit (product_id, age_limit_id) VALUES (?, ?)";
-        jdbcTemplate.update(insertAgeLimitSql, productID, product.getAgeLimit());
+        jdbcTemplate.update(insertAgeLimitSql, productID, product.getAgeLimit().getAgeLimitID());
     }
-
 
 
     public void delete(int productID) {

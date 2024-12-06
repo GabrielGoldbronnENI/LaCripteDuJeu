@@ -7,6 +7,7 @@ import fr.eni.lacriptedujeu.repositorys.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import java.util.List;
 
@@ -31,7 +32,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<Product> getAll(List<String> filters) {
-        return productRepository.getAll(filters);
+        try {
+            return productRepository.getAll(filters);
+        } catch (DataIntegrityViolationException e) {
+            String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
+            throw new RuntimeException(errorMessage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Product getById(int productID) {

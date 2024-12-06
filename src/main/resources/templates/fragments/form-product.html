@@ -12,7 +12,7 @@
                 <option th:each="ageLimit : ${ageLimits}"
                         th:value="${ageLimit.ageLimitID}"
                         th:text="${ageLimit.label}"
-                        th:selected="*{ageLimit} == ${ageLimit.ageLimitID}">
+                        th:selected="${product.ageLimit == ageLimit}">
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('ageLimit')}" class="invalid-feedback">
@@ -20,17 +20,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="genres" th:text="'Genres'"></label>
+            <div class="d-flex gap-5 align-items-center mb-3">
+                <label for="genres" th:text="'Genres'"></label>
+                <button type="button" class="btn btn-secondary mt-2" onclick="deselectAllGenres()">Désélectionner les genres</button>
+            </div>
             <select class="form-select" style="height: 300px" multiple id="genres" name="genres"
                     th:classappend="${#fields.hasErrors('genres')} ? ' is-invalid'">
                 <option th:each="genre : ${genres}"
                         th:value="${genre.genreID}"
                         th:text="${genre.title}"
-                        th:selected="${product.genresDetails?.contains(genre)}">
+                        th:selected="${product.genres?.contains(genre)}">
                 </option>
             </select>
             <div th:if="${#fields.hasErrors('genres')}" class="invalid-feedback">
-                <span th:errors="*{genre}"></span>
+                <span th:errors="*{genres}"></span>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>

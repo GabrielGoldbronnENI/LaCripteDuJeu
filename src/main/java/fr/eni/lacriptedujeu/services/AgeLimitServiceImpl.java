@@ -1,8 +1,8 @@
 package fr.eni.lacriptedujeu.services;
 
+import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.AgeLimit;
 import fr.eni.lacriptedujeu.repositorys.AgeLimitRepository;
-import fr.eni.lacriptedujeu.repositorys.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +21,14 @@ public class AgeLimitServiceImpl implements AgeLimitService {
 
     public List<AgeLimit> getAll() {
         return ageLimitRepository.getAll();
+    }
+
+    public AgeLimit getById(int ageLimitID) {
+
+        AgeLimit ageLimit = ageLimitRepository.getById(ageLimitID);
+        if (ageLimit == null) {
+            throw new NotFoundException("L'age limite avec l'ID " + ageLimitID + " est introuvable");
+        }
+        return ageLimit;
     }
 }
