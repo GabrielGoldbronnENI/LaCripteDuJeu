@@ -39,7 +39,7 @@ public class GenresController {
     }
 
     @GetMapping("/{genreID}")
-    public String getProduct(@PathVariable int genreID, Model model) {
+    public String getGenre(@PathVariable int genreID, Model model) {
         logger.info("getAllGenres : {}", genreService.getById(genreID));
         return "index";
     }

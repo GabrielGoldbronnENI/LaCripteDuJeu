@@ -21,7 +21,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     private static final Logger logger = LoggerFactory.getLogger(ProductRepositoryImpl.class);
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    public JdbcTemplate jdbcTemplate;
 
     @Transactional
     public void save(Product product) {
