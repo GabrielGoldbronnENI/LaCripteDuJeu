@@ -107,12 +107,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     public void delete(int productID) {
-
         String checkQuery = """
                     SELECT COUNT(*) 
-                    FROM location l 
-                    JOIN rental_status_location rsl ON l.location_id = rsl.location_id
-                    WHERE l.product_id = ? AND rsl.rental_status_id = 1
+                    FROM locations l
+                    WHERE l.product_id = ? AND l.rental_status_id = 1
                 """;
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, productID);
 

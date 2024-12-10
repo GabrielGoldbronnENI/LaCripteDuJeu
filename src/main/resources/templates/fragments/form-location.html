@@ -1,0 +1,36 @@
+<div th:fragment="formField(location, users, copies, action, errorMessage)">
+    <form th:action="${action}" method="post" class="d-flex flex-column gap-4" th:object="${location}">
+        <div th:replace="fragments/error-messages :: errorMessage(${errorMessage})"></div>
+        <div class="form-group">
+            <label for="user" th:text="'Client'"></label>
+            <select class="form-select" id="user" name="user"
+                    th:classappend="${#fields.hasErrors('userID')} ? ' is-invalid'">
+                <option th:text="'Veuillez sélectionner un client'" disabled selected></option>
+                <option th:each="user : ${users}"
+                        th:value="${user.userID}"
+                        th:text="${user.firstName} + ' ' + ${user.lastName}"
+                        th:selected="${location.userID == user.userID}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('userID')}" class="invalid-feedback">
+                <span th:errors="*{userID}"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="copy" th:text="'Exemplaire'"></label>
+            <select class="form-select" id="copy" name="copy"
+                    th:classappend="${#fields.hasErrors('copyID')} ? ' is-invalid'">
+                <option th:text="'Veuillez sélectionner un exemplaire'" disabled selected></option>
+                <option th:each="copy : ${copies}"
+                        th:value="${copy.copyID}"
+                        th:text="${copy.barcode}"
+                        th:selected="${location.copyID == copy.copyID}">
+                </option>
+            </select>
+            <div th:if="${#fields.hasErrors('copyID')}" class="invalid-feedback">
+                <span th:errors="*{copyID}"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+</div>

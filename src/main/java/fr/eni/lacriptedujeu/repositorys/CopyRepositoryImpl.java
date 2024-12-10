@@ -79,12 +79,10 @@ public class CopyRepositoryImpl implements CopyRepository {
 
     public void delete(int copyID) {
         String checkQuery = """
-                SELECT COUNT(*) 
-                FROM location l 
-                JOIN copy_location cl ON l.location_id = cl.location_id
-                WHERE cl.copy_id = ? AND l.status = 1
+                    SELECT COUNT(*) 
+                    FROM locations l
+                    WHERE l.copy_id = ? AND l.rental_status_id = 1
                 """;
-
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, copyID);
 
         if (count != null && count > 0) {

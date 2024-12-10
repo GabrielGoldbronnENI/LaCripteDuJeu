@@ -76,7 +76,7 @@ BEGIN
         WHERE tgname = ''set_timestamps_location''
     ) THEN
         CREATE TRIGGER set_timestamps_location
-            BEFORE INSERT OR UPDATE ON location
+            BEFORE INSERT OR UPDATE ON locations
             FOR EACH ROW
         EXECUTE FUNCTION set_timestamps();
     END IF;
