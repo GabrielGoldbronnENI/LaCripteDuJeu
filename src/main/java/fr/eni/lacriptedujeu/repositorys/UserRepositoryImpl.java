@@ -86,7 +86,7 @@ public class UserRepositoryImpl implements UserRepository {
                     SELECT COUNT(*) 
                     FROM locations l
                     WHERE l.user_id = ? AND l.rental_status_id = 1
-                """;    
+                """;
         Integer count = jdbcTemplate.queryForObject(checkQuery, Integer.class, userID);
 
         if (count != null && count > 0) {

@@ -26,6 +26,16 @@
             <input type="text" class="form-control" th:id="${fieldId}" th:name="${fieldName}"
                    th:placeholder="${placeholder}">
         </div>
+
+        <div th:if="${type == 'password'}">
+            <input type="password" class="form-control" th:id="${fieldId}" th:field="*{__${fieldName}__}"
+                   th:placeholder="${placeholder}"
+                   th:classappend="${#fields.hasErrors(fieldName)} ? ' is-invalid'">
+            <div th:if="${#fields.hasErrors(fieldName)}" class="invalid-feedback">
+                <span th:errors="*{__${fieldName}__}"></span>
+                <!-- *{__${fieldName}__} == *{fieldName} -->
+            </div>
+        </div>
     </div>
 </div>
 
