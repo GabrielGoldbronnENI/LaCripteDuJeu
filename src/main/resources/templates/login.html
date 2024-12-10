@@ -2,25 +2,17 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Get Locations</title>
+    <title>Create User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="/path/to/select2.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
-
-
 </head>
 <body class="p-5">
 <div class="container">
-    <a href="/" class="btn btn-primary">Accueil</a>
+    <div class="d-flex gap-3 mb-4">
+        <a href="/" class="btn btn-primary">Accueil</a>
+        <button id="btnSwitch" class="btn btn-primary">Changer de thème</button>
+    </div>
+
     <h1 class="text-3xl font-bold underline">Connection</h1>
     <form th:action="@{/login}" method="post" class="d-flex flex-column gap-4" th:object="${user}">
 
@@ -43,3 +35,4 @@
 </div>
 </body>
 </html>
+<script src="/js/theme.js"></script>
