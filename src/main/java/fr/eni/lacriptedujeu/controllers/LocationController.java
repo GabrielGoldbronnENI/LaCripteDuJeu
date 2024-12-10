@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.controllers;
 
+import fr.eni.lacriptedujeu.models.Copy;
 import fr.eni.lacriptedujeu.models.Location;
 import fr.eni.lacriptedujeu.models.Product;
 import fr.eni.lacriptedujeu.services.*;
@@ -105,12 +106,17 @@ public class LocationController {
 
     @GetMapping("/{locationsID}")
     public String getLocation(@PathVariable int locationsID, Model model) {
-        model.addAttribute("location", locationService.getById(locationsID));
+        Location location = locationService.getById(locationsID);
+        model.addAttribute("location", location);
         model.addAttribute("users", userService.getAll(null));
         List<String> filtersCopyActive = new ArrayList<>();
         filtersCopyActive.add("");
         filtersCopyActive.add(String.valueOf(1));
-        model.addAttribute("copies", copyService.getAll(filtersCopyActive));
+
+        List<Copy> copies = copyService.getAll(filtersCopyActive);
+        copies.add(copyService.getById(location.getCopyID()));
+
+        model.addAttribute("copies", copies);
 
         return "location";
     }
