@@ -31,8 +31,16 @@ public class CopyServiceImpl implements CopyService {
         }
     }
 
-    public List<Copy> getAll(List<String> filters) {
-        return copyRepository.getAll(filters);
+    public List<Copy> getAll(List<String> filters, int page, int size) {
+        return copyRepository.getAll(filters, page, size);
+    }
+
+    public int getTotalCount(List<String> filters) {
+        return copyRepository.getTotalCount(filters);
+    }
+
+    public List<Copy> getAllAvailable() {
+        return copyRepository.getAllAvailable();
     }
 
     public Copy getById(int copyID) {

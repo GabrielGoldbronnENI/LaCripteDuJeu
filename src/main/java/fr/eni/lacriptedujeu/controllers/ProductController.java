@@ -68,6 +68,8 @@ public class ProductController {
     public String getAllProducts (
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Integer ageLimit,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "50") int size,
             Model model
     ) {
         model.addAttribute("ageLimits", ageLimitService.getAll());
@@ -82,7 +84,7 @@ public class ProductController {
             filter.add("");
         }
 
-        model.addAttribute("products", productService.getAll(filter));
+        model.addAttribute("products", productService.getAll(filter, page, size));
         return "products";
     }
 

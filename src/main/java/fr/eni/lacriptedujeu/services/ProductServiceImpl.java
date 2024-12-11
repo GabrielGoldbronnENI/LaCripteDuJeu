@@ -31,9 +31,9 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public List<Product> getAll(List<String> filters) {
+    public List<Product> getAll(List<String> filters, int page, int size) {
         try {
-            return productRepository.getAll(filters);
+            return productRepository.getAll(filters, page, size);
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
             throw new RuntimeException(errorMessage);

@@ -68,6 +68,58 @@
     </tr>
     </tbody>
 </table>
+<nav aria-label="Page navigation example" style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%)">
+    <ul class="pagination">
+        <!-- Première page -->
+        <li class="page-item">
+            <a class="page-link"
+               th:href="@{/copies(page=0, size=${size}, status=${status}, productID=${productID})}">
+                Première page
+            </a>
+        </li>
+
+        <!-- Lien vers la page précédente -->
+        <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/copies(page=${page-1}, size=${size}, status=${status}, productID=${productID})}"
+               th:if="${page > 0}"><<</a>
+        </li>
+
+        <!-- Boucle pour afficher les numéros de page (avant la page actuelle) -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(3, 0)}"
+            th:classappend="${page - i == page} ? 'active'">
+            <a th:if="${page - i >= 0}"
+               class="page-link"
+               th:href="@{/copies(page=${page - i}, size=${size}, status=${status}, productID=${productID})}"
+               th:text="${page - i + 1}"></a>
+        </li>
+
+        <!-- Boucle pour afficher les numéros de page (après la page actuelle) -->
+        <li class="page-item" th:each="i : ${#numbers.sequence(1, 3)}"
+            th:classappend="${page + i == page} ? 'active'">
+            <a th:if="${page + i < totalPages}"
+               class="page-link"
+               th:href="@{/copies(page=${page + i}, size=${size}, status=${status}, productID=${productID})}"
+               th:text="${page + i + 1}"></a>
+        </li>
+
+        <!-- Lien vers la page suivante -->
+        <li class="page-item" th:classappend="${page + 1 >= totalPages} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/copies(page=${page+1}, size=${size}, status=${status}, productID=${productID})}"
+               th:if="${page + 1 < totalPages}">>></a>
+        </li>
+
+        <!-- Dernière page -->
+        <li class="page-item">
+            <a class="page-link"
+               th:href="@{/copies(page=${totalPages - 1}, size=${size}, status=${status}, productID=${productID})}">
+                Dernière page
+            </a>
+        </li>
+    </ul>
+</nav>
+
 </body>
 </html>
 <script src="/js/theme.js"></script>

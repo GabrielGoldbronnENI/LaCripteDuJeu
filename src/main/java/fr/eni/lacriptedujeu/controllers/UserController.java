@@ -47,6 +47,8 @@ public class UserController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String phone,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "50") int size,
             Model model
     ) {
         List<String> filter = new ArrayList<>();
@@ -56,7 +58,7 @@ public class UserController {
         filter.add(email);
         filter.add(phone);
 
-        model.addAttribute("users", userService.getAll(filter));
+        model.addAttribute("users", userService.getAll(filter, page, size));
         return "users";
     }
 

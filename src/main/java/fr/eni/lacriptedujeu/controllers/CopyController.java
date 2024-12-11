@@ -30,8 +30,11 @@ public class CopyController {
     }
 
     @PostMapping
-    public String createCopy(@ModelAttribute @Valid Copy copy, BindingResult bindingResult, Model model) {
-        model.addAttribute("products", productService.getAll(null));
+    public String createCopy(
+            @ModelAttribute @Valid Copy copy,
+            BindingResult bindingResult,
+            Model model) {
+        model.addAttribute("products", productService.getAll(null, 0, 9000));
         logger.info("Creating copy: {}", copy);
 
         if (bindingResult.hasErrors()) {
@@ -60,10 +63,15 @@ public class CopyController {
     public String getAllCopies(
             @RequestParam(required = false) Boolean status,
             @RequestParam(required = false) Integer productID,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "50") int size,
             Model model
     ) {
-        model.addAttribute("products", productService.getAll(null));
+        model.addAttribute("products", productService.getAll(null, 0, 9000));
         logger.info("Getting all copies with filters - status: {}, productID: {}", status, productID);
+
+        model.addAttribute("productID", productID);
+        model.addAttribute("status", status);
 
         List<String> filters = new ArrayList<>();
         if (productID != null) {
@@ -78,13 +86,23 @@ public class CopyController {
             filters.add("");
         }
 
-        model.addAttribute("copies", copyService.getAll(filters));
+        // Fetch copies and metadata
+        List<Copy> copies = copyService.getAll(filters, page, size);
+        int totalItems = copyService.getTotalCount(filters);
+        int totalPages = (int) Math.ceil((double) totalItems / size);
+
+        // Add pagination data to the model
+        model.addAttribute("copies", copies);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("totalPages", totalPages);
+
         return "copies";
     }
 
     @GetMapping("/{copyID}")
     public String getCopy(@PathVariable int copyID, Model model) {
-        model.addAttribute("products", productService.getAll(null));
+        model.addAttribute("products", productService.getAll(null, 0, 9000));
         logger.info("Getting copy with ID: {}", copyID);
 
         Copy copy = copyService.getById(copyID);

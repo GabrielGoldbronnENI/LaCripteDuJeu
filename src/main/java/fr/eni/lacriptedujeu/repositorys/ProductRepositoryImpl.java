@@ -43,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
-    public List<Product> getAll(List<String> filters) {
+    public List<Product> getAll(List<String> filters, int page, int size) {
         StringBuilder sql = new StringBuilder("SELECT * FROM products WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
@@ -64,6 +64,11 @@ public class ProductRepositoryImpl implements ProductRepository {
             }
         }
 
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(size); // Nombre maximum d'éléments
+        params.add(page * size); // Décalage (offset)
+
+        logger.info("Executing SQL: {} with params: {}", sql, params);
         return jdbcTemplate.query(sql.toString(), new ProductRowMapper(jdbcTemplate), params.toArray());
     }
 

@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public List<User> getAll(List<String> filters) {
-        return userRepository.getAll(filters);
+    public List<User> getAll(List<String> filters, int page, int size) {
+        return userRepository.getAll(filters, page, size);
     }
 
     public User getById(int userID) {

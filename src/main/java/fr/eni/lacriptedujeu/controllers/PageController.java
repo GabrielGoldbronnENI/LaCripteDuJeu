@@ -57,19 +57,15 @@ public class PageController {
 
     @GetMapping("/copy-add")
     public String newCopy(Model model) {
-        model.addAttribute("products", productService.getAll(null));
+        model.addAttribute("products", productService.getAll(null, 0, 9000));
         model.addAttribute("copy", new Copy());
         return "copy-add";
     }
 
     @GetMapping("/location-add")
     public String newLocation(Model model) {
-        model.addAttribute("users", userService.getAll(null));
-
-        List<String> filtersCopyActive = new ArrayList<>();
-        filtersCopyActive.add("");
-        filtersCopyActive.add(String.valueOf(1));
-        model.addAttribute("copies", copyService.getAll(filtersCopyActive));
+        model.addAttribute("users", userService.getAll(null, 0, 9000));
+        model.addAttribute("copies", copyService.getAllAvailable());
 
         model.addAttribute("location", new Location());
         return "location-add";

@@ -37,12 +37,8 @@ public class LocationController {
 
     @PostMapping
     public String createLocation(@ModelAttribute @Valid Location location, BindingResult bindingResult, Model model) {
-        model.addAttribute("users", userService.getAll(null));
-
-        List<String> filtersCopyActive = new ArrayList<>();
-        filtersCopyActive.add("");
-        filtersCopyActive.add(String.valueOf(1));
-        model.addAttribute("copies", copyService.getAll(filtersCopyActive));
+        model.addAttribute("users", userService.getAll(null, 0,9000));
+        model.addAttribute("copies", copyService.getAllAvailable());
 
         logger.info("Creating product: {}", location);
 
@@ -75,11 +71,13 @@ public class LocationController {
             @RequestParam(required = false) Integer copy,
             @RequestParam(required = false) Integer user,
             @RequestParam(required = false) Integer status,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "50") int size,
             Model model
     ) {
-        model.addAttribute("users", userService.getAll(null));
-        model.addAttribute("copies", copyService.getAll(null));
-        model.addAttribute("products", copyService.getAll(null));
+        model.addAttribute("users", userService.getAll(null, 0,9000));
+        model.addAttribute("copies", copyService.getAll(null, 0,9000));
+        model.addAttribute("products", copyService.getAll(null, 0,9000));
 
         List<String> filter = new ArrayList<>();
         if (copy != null) {
@@ -100,7 +98,7 @@ public class LocationController {
 
         logger.info("filter: {}", filter);
 
-        model.addAttribute("locations", locationService.getAll(filter));
+        model.addAttribute("locations", locationService.getAll(filter, page, size));
         return "locations";
     }
 
@@ -108,11 +106,8 @@ public class LocationController {
     public String getLocation(@PathVariable int locationsID, Model model) {
         Location location = locationService.getById(locationsID);
         model.addAttribute("location", location);
-        model.addAttribute("users", userService.getAll(null));
-        List<String> filtersCopyActive = new ArrayList<>();
-        filtersCopyActive.add("");
-        filtersCopyActive.add(String.valueOf(1));
-        List<Copy> copies = copyService.getAll(filtersCopyActive);
+        model.addAttribute("users", userService.getAll(null, 0,9000));
+        List<Copy> copies = copyService.getAllAvailable();
         copies.add(copyService.getById(location.getCopy().getCopyID()));
 
 

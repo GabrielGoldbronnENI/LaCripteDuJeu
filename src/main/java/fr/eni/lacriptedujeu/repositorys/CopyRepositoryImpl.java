@@ -31,7 +31,7 @@ public class CopyRepositoryImpl implements CopyRepository {
         jdbcTemplate.update(productSql, copy.getProductID(), copy_id);
     }
 
-    public List<Copy> getAll(List<String> filters) {
+    public List<Copy> getAll(List<String> filters, int page, int size) {
         StringBuilder sql = new StringBuilder("SELECT * FROM copy WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class CopyRepositoryImpl implements CopyRepository {
                     if ("product_id".equals(columns[i])) {
                         sql.append(" AND ").append(columns[i]).append(" = ?");
                         params.add(Integer.parseInt(filter));
-                    }else if ("status".equals(columns[i])) {
+                    } else if ("status".equals(columns[i])) {
                         sql.append(" AND ").append(columns[i]).append(" = ?");
                         params.add(Boolean.parseBoolean(filter));
                     }
@@ -53,7 +53,40 @@ public class CopyRepositoryImpl implements CopyRepository {
             }
         }
 
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(size); // Nombre maximum d'éléments
+        params.add(page * size); // Décalage (offset)
+
+        logger.info("Executing SQL: {} with params: {}", sql, params);
         return jdbcTemplate.query(sql.toString(), new CopyRowMapper(jdbcTemplate), params.toArray());
+    }
+
+    public int getTotalCount(List<String> filters) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM copy WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        String[] columns = {"product_id", "status"};
+
+        for (int i = 0; i < filters.size(); i++) {
+            String filter = filters.get(i);
+            if (filter != null && !filter.isEmpty()) {
+                sql.append(" AND ").append(columns[i]).append(" = ?");
+                params.add("status".equals(columns[i]) ? Boolean.parseBoolean(filter) : Integer.parseInt(filter));
+            }
+        }
+
+        return jdbcTemplate.queryForObject(sql.toString(), params.toArray(), Integer.class);
+    }
+
+    public List<Copy> getAllAvailable() {
+        String sql = """
+                SELECT c.*
+                FROM copy c
+                LEFT JOIN locations l ON c.copy_id = l.copy_id AND l.rental_status_id = 1
+                WHERE c.status = true
+                AND l.copy_id IS NULL;
+                """;
+        return jdbcTemplate.query(sql, new CopyRowMapper(jdbcTemplate));
     }
 
 

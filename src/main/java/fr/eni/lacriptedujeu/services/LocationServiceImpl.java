@@ -31,9 +31,9 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
-    public List<Location> getAll(List<String> filters) {
+    public List<Location> getAll(List<String> filters, int page, int size) {
         try {
-            return locationRepository.getAll(filters);
+            return locationRepository.getAll(filters, page, size);
         } catch (DataIntegrityViolationException e) {
             String errorMessage = e.getRootCause() != null ? e.getRootCause().getMessage() : e.getMessage();
             throw new RuntimeException(errorMessage);

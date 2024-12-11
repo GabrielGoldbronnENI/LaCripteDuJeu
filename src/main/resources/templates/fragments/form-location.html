@@ -23,7 +23,7 @@
                 <option th:text="'Veuillez sélectionner un exemplaire'" disabled selected></option>
                 <option th:each="copy : ${copies}"
                         th:value="${copy.copyID}"
-                        th:text="${copy.barcode}"
+                        th:text="${copy.copyID} + ' : ' + ${copy.barcode}"
                         th:selected="${location.copy?.copyID == copy.copyID}">
                 </option>
             </select>
@@ -31,6 +31,19 @@
                 <span th:errors="*{copy}"></span>
             </div>
         </div>
+
+        <div class="form-group">
+            <label for="rentalStatusID" th:text="'Status'"></label>
+            <select class="form-select" id="rentalStatusID" name="rentalStatusID"
+                    th:classappend="${#fields.hasErrors('rentalStatusID')} ? ' is-invalid'">
+                <option th:value="1" th:text="rented" th:selected="${location.rentalStatusID} == 1"></option>
+                <option th:value="2" th:text="returned" th:selected="${location.rentalStatusID} == 2"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('rentalStatusID')}" class="invalid-feedback">
+                <span th:errors="*{rentalStatusID}"></span>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>
 </div>

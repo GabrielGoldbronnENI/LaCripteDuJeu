@@ -33,7 +33,7 @@ public class LocationRepositoryImpl implements LocationRepository {
                 Integer.class,
                 location.getCopy().getProductDetails().getTariff(),
                 location.getUser().getUserID(),
-                1,
+                location.getRentalStatusID(),
                 location.getCopy().getCopyID()
         );
 
@@ -45,7 +45,7 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
 
-    public List<Location> getAll(List<String> filters) {
+    public List<Location> getAll(List<String> filters, int page, int size) {
         StringBuilder sql = new StringBuilder("SELECT * FROM locations WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
@@ -61,6 +61,11 @@ public class LocationRepositoryImpl implements LocationRepository {
             }
         }
 
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(size); // Nombre maximum d'éléments
+        params.add(page * size); // Décalage (offset)
+
+        logger.info("Executing SQL: {} with params: {}", sql, params);
         return jdbcTemplate.query(sql.toString(), new LocationRowMapper(jdbcTemplate), params.toArray());
     }
 
@@ -82,7 +87,7 @@ public class LocationRepositoryImpl implements LocationRepository {
                 location.getCopy().getProductDetails().getTariff(),
                 location.getCopy().getCopyID(),
                 location.getUser().getUserID(),
-                2,
+                location.getRentalStatusID(),
                 locationID
         );
 

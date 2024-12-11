@@ -5,6 +5,8 @@ import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.User;
 import fr.eni.lacriptedujeu.rowMapper.UserRowMapper;
 import fr.eni.lacriptedujeu.utils.PhoneNumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
+    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -31,7 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
 
-    public List<User> getAll(List<String> filters) {
+    public List<User> getAll(List<String> filters, int page, int size) {
         StringBuilder sql = new StringBuilder("SELECT * FROM users WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
@@ -48,6 +52,11 @@ public class UserRepositoryImpl implements UserRepository {
             }
         }
 
+        sql.append(" LIMIT ? OFFSET ?");
+        params.add(size); // Nombre maximum d'éléments
+        params.add(page * size); // Décalage (offset)
+
+        logger.info("Executing SQL: {} with params: {}", sql, params);
         return jdbcTemplate.query(sql.toString(), new UserRowMapper(), params.toArray());
     }
 
