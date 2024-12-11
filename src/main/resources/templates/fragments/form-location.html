@@ -4,31 +4,31 @@
         <div class="form-group">
             <label for="user" th:text="'Client'"></label>
             <select class="form-select" id="user" name="user"
-                    th:classappend="${#fields.hasErrors('userID')} ? ' is-invalid'">
+                    th:classappend="${#fields.hasErrors('user')} ? ' is-invalid'">
                 <option th:text="'Veuillez sélectionner un client'" disabled selected></option>
                 <option th:each="user : ${users}"
                         th:value="${user.userID}"
                         th:text="${user.firstName} + ' ' + ${user.lastName}"
-                        th:selected="${location.userID == user.userID}">
+                        th:selected="${location.user?.userID == user.userID}">
                 </option>
             </select>
-            <div th:if="${#fields.hasErrors('userID')}" class="invalid-feedback">
-                <span th:errors="*{userID}"></span>
+            <div th:if="${#fields.hasErrors('user')}" class="invalid-feedback">
+                <span th:errors="*{user}"></span>
             </div>
         </div>
         <div class="form-group">
             <label for="copy" th:text="'Exemplaire'"></label>
             <select class="form-select" id="copy" name="copy"
-                    th:classappend="${#fields.hasErrors('copyID')} ? ' is-invalid'">
+                    th:classappend="${#fields.hasErrors('copy')} ? ' is-invalid'">
                 <option th:text="'Veuillez sélectionner un exemplaire'" disabled selected></option>
                 <option th:each="copy : ${copies}"
                         th:value="${copy.copyID}"
                         th:text="${copy.barcode}"
-                        th:selected="${location.copyID == copy.copyID}">
+                        th:selected="${location.copy?.copyID == copy.copyID}">
                 </option>
             </select>
-            <div th:if="${#fields.hasErrors('copyID')}" class="invalid-feedback">
-                <span th:errors="*{copyID}"></span>
+            <div th:if="${#fields.hasErrors('copy')}" class="invalid-feedback">
+                <span th:errors="*{copy}"></span>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>

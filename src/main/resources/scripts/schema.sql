@@ -76,13 +76,11 @@ CREATE TABLE IF NOT EXISTS locations
 (
     location_id      SERIAL PRIMARY KEY,
     price            DECIMAL(10, 2) NOT NULL,
-    product_id       INT            NOT NULL,
     user_id          INT            NOT NULL,
     rental_status_id INT            NOT NULL,
     copy_id          INT            NOT NULL,
     createdAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_location_product FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE,
     CONSTRAINT fk_location_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
     CONSTRAINT fk_location_rental_status FOREIGN KEY (rental_status_id) REFERENCES rental_status (rental_status_id) ON DELETE CASCADE
 );

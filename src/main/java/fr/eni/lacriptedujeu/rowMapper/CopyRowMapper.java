@@ -25,7 +25,7 @@ public class CopyRowMapper implements RowMapper<Copy> {
         copy.setProductID(rs.getInt("product_id"));
 
         String productQuery = """
-            SELECT p.product_id, p.title
+            SELECT p.product_id, p.title, p.tariff, p.play_time
             FROM products p
             WHERE p.product_id = ?
         """;
@@ -34,6 +34,9 @@ public class CopyRowMapper implements RowMapper<Copy> {
                 Product product = new Product();
                 product.setProductId(productRs.getInt("product_id"));
                 product.setTitle(productRs.getString("title"));
+                product.setTariff(productRs.getBigDecimal("tariff"));
+                product.setPlayTime(productRs.getString("play_time"));
+
                 return product;
             }, copy.getProductID());
 

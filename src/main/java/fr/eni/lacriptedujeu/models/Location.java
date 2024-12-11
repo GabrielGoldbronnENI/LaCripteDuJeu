@@ -1,19 +1,20 @@
 package fr.eni.lacriptedujeu.models;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Location {
     private Long locationID;
     private BigDecimal price;
-    private int productID;
-    @Min(value = 1, message = "l'utilisateur est obligatoire")
-    private int userID;
+    @NotNull(message = "l'utilisateur est obligatoire")
+    private User user;
     private int rentalStatusID;
-    @Min(value = 1, message = "l'exemplaire est obligatoire")
-    private int copyID;
+    @NotNull(message = "l'exemplaire est obligatoire")
+    private Copy copy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -33,20 +34,12 @@ public class Location {
         this.price = price;
     }
 
-    public int getProductID() {
-        return productID;
+    public User getUser() {
+        return user;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getRentalStatusID() {
@@ -57,12 +50,12 @@ public class Location {
         this.rentalStatusID = rentalStatusID;
     }
 
-    public int getCopyID() {
-        return copyID;
+    public Copy getCopy() {
+        return copy;
     }
 
-    public void setCopyID(int copyID) {
-        this.copyID = copyID;
+    public void setCopy(Copy copy) {
+        this.copy = copy;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -81,16 +74,26 @@ public class Location {
         this.updatedAt = updatedAt;
     }
 
-    // toString
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return rentalStatusID == location.rentalStatusID && Objects.equals(locationID, location.locationID) && Objects.equals(price, location.price) && Objects.equals(user, location.user) && Objects.equals(copy, location.copy) && Objects.equals(createdAt, location.createdAt) && Objects.equals(updatedAt, location.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(locationID, price, user, rentalStatusID, copy, createdAt, updatedAt);
+    }
+
     @Override
     public String toString() {
         return "Location{" +
                 "locationID=" + locationID +
                 ", price=" + price +
-                ", productID=" + productID +
-                ", userID=" + userID +
+                ", user=" + user +
                 ", rentalStatusID=" + rentalStatusID +
-                ", copyID=" + copyID +
+                ", copy=" + copy +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

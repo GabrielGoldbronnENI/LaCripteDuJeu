@@ -112,9 +112,9 @@ public class LocationController {
         List<String> filtersCopyActive = new ArrayList<>();
         filtersCopyActive.add("");
         filtersCopyActive.add(String.valueOf(1));
-
         List<Copy> copies = copyService.getAll(filtersCopyActive);
-        copies.add(copyService.getById(location.getCopyID()));
+        copies.add(copyService.getById(location.getCopy().getCopyID()));
+
 
         model.addAttribute("copies", copies);
 
@@ -128,6 +128,8 @@ public class LocationController {
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "location";
         }
+
+        logger.info("updating product: {}", location);
 
         try {
             locationService.update(locationID, location);

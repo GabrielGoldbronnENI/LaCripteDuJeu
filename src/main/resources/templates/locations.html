@@ -28,8 +28,8 @@
         <label for="status" th:text="'Statut'"></label>
         <select class="form-select" id="status" name="status">
             <option th:value="null" th:text="'Selectionner un status'" selected></option>
-            <option th:value="1" th:text="'Disponible'"></option>
-            <option th:value="2" th:text="'Non Disponible'"></option>
+            <option th:value="1" th:text="'loué'"></option>
+            <option th:value="2" th:text="'rendu'"></option>
         </select>
     </div>
     <div class="form-group">
@@ -72,10 +72,10 @@
     <tr class="row100 body" th:each="location : ${locations}">
         <td th:text="${location.locationID}" class="cell100 column2"></td>
         <td th:text="${location.price}" class="cell100 column2"></td>
-        <td th:text="${location.rentalStatusID}" class="cell100 column2"></td>
-        <td th:text="${location.userID}" class="cell100 column2"></td>
-        <td th:text="${location.productID}" class="cell100 column2"></td>
-        <td th:text="${location.copyID}" class="cell100 column2"></td>
+        <td th:text="${location.rentalStatusID} == 1 ? 'rented' : 'returned'" class="cell100 column2"></td>
+        <td th:text="${location.user.firstName} + ' ' + ${location.user.lastName}" class="cell100 column2"></td>
+        <td th:text="${location.copy.productDetails.title}" class="cell100 column2"></td>
+        <td th:text="${location.copy.barcode}" class="cell100 column2"></td>
         <td class="cell100 column2">
             <a th:href="@{/locations/{locationID}(locationID=${location.locationID})}" class="btn btn-primary">Détails</a>
             <a th:href="@{/locations/delete/{locationID}(locationID=${location.locationID})}" class="btn btn-danger">Supprimer le produit</a>

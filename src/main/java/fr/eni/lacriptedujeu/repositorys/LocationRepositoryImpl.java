@@ -27,14 +27,21 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     @Transactional
     public void save(Location location) {
-        String productSql = "INSERT INTO locations(price, product_id, user_id, rental_status_id) RETURNING location_id";
-        int locationID = jdbcTemplate.queryForObject(productSql, Integer.class, location.getPrice(), location.getProductID(), location.getUserID(), location.getRentalStatusID());
+        String productSql = "INSERT INTO locations(price, user_id, rental_status_id, copy_id) VALUES (?, ?, ?, ?) RETURNING location_id";
+        Integer locationID = jdbcTemplate.queryForObject(
+                productSql,
+                Integer.class,
+                location.getCopy().getProductDetails().getTariff(),
+                location.getUser().getUserID(),
+                1,
+                location.getCopy().getCopyID()
+        );
 
         String userSql = "INSERT INTO user_location(user_id, location_id) VALUES (?, ?)";
-        jdbcTemplate.update(userSql, location.getUserID(), locationID);
+        jdbcTemplate.update(userSql, location.getUser().getUserID(), locationID);
 
         String copySql = "INSERT INTO copy_location(copy_id, location_id) VALUES (?, ?)";
-        jdbcTemplate.update(copySql, location.getCopyID(), locationID);
+        jdbcTemplate.update(copySql, location.getCopy().getCopyID(), locationID);
     }
 
 
@@ -54,14 +61,14 @@ public class LocationRepositoryImpl implements LocationRepository {
             }
         }
 
-        return jdbcTemplate.query(sql.toString(), new LocationRowMapper(), params.toArray());
+        return jdbcTemplate.query(sql.toString(), new LocationRowMapper(jdbcTemplate), params.toArray());
     }
 
 
     public Location getById(int locationID) {
         String sql = "SELECT * FROM locations WHERE location_id=?";
         try {
-            return jdbcTemplate.queryForObject(sql, new LocationRowMapper(), locationID);
+            return jdbcTemplate.queryForObject(sql, new LocationRowMapper(jdbcTemplate), locationID);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -69,18 +76,25 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     @Transactional
     public void update(int locationID, Location location) {
-        String sql = "UPDATE locations SET price = ?, product_id = ?, user_id = ?, rental_status_id = ? WHERE location_id = ?";
-        jdbcTemplate.update(sql, location.getPrice(), location.getProductID(), location.getUserID(), location.getRentalStatusID(), locationID);
+        String sql = "UPDATE locations SET price = ?, copy_id = ?, user_id = ?, rental_status_id = ? WHERE location_id = ?";
+        jdbcTemplate.update(
+                sql,
+                location.getCopy().getProductDetails().getTariff(),
+                location.getCopy().getCopyID(),
+                location.getUser().getUserID(),
+                2,
+                locationID
+        );
 
         String deleteUserSql = "DELETE FROM user_location WHERE location_id = ?";
         jdbcTemplate.update(deleteUserSql, locationID);
         String userSql = "INSERT INTO user_location(user_id, location_id) VALUES (?, ?)";
-        jdbcTemplate.update(userSql, location.getUserID(), locationID);
+        jdbcTemplate.update(userSql, location.getUser().getUserID(), locationID);
 
         String deleteCopySql = "DELETE FROM copy_location WHERE location_id = ?";
         jdbcTemplate.update(deleteCopySql, locationID);
         String copySql = "INSERT INTO copy_location(copy_id, location_id) VALUES (?, ?)";
-        jdbcTemplate.update(copySql, location.getCopyID(), locationID);
+        jdbcTemplate.update(copySql, location.getCopy().getCopyID(), locationID);
     }
 
 

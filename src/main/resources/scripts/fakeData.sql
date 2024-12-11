@@ -49,13 +49,13 @@ VALUES
     ('returned');
 
 -- Table location
-INSERT INTO locations (price, product_id, user_id, rental_status_id, copy_id)
+INSERT INTO locations (price, user_id, rental_status_id, copy_id)
 VALUES
-    (5.99, 1, 1, 1, 1),
-    (7.99, 2, 2, 2, 2),
-    (6.99, 3, 1, 1, 3),
-    (8.99, 4, 2, 1, 4),
-    (4.99, 5, 5, 2, 5);
+    (5.99, 1, 1, 1),
+    (7.99, 2, 2, 2),
+    (6.99, 1, 1, 3),
+    (8.99, 2, 1, 4),
+    (4.99, 5, 2, 5);
 
 
 
