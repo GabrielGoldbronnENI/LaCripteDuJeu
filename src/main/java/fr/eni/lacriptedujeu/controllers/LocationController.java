@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/locations")
@@ -67,38 +69,56 @@ public class LocationController {
     }
 
     @GetMapping
-    public String getAllLocations (
-            @RequestParam(required = false) Integer copy,
-            @RequestParam(required = false) Integer user,
-            @RequestParam(required = false) Integer status,
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "50") int size,
+    public String getAllLocations(
+            @RequestParam Map<String, String> params, // Capture all dynamic query parameters
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
             Model model
     ) {
-        model.addAttribute("users", userService.getAll(null, 0,9000));
-        model.addAttribute("copies", copyService.getAll(null, 0,9000));
-        model.addAttribute("products", copyService.getAll(null, 0,9000));
+        model.addAttribute("users", userService.getAll(null, 0, 9000));
+        model.addAttribute("copies", copyService.getAll(null, 0, 9000));
+        model.addAttribute("products", copyService.getAll(null, 0, 9000));
 
+        // Build filters dynamically
         List<String> filter = new ArrayList<>();
-        if (copy != null) {
-            filter.add(String.valueOf(copy));
-        } else {
-            filter.add("");
-        }
-        if (user != null) {
-            filter.add(String.valueOf(user));
-        } else {
-            filter.add("");
-        }
-        if (status != null) {
-            filter.add(String.valueOf(status));
+        if (params.containsKey("copy") && params.get("copy") != null && !params.get("copy").isEmpty()) {
+            filter.add(params.get("copy"));
         } else {
             filter.add("");
         }
 
-        logger.info("filter: {}", filter);
+        if (params.containsKey("user") && params.get("user") != null && !params.get("user").isEmpty()) {
+            filter.add(params.get("user"));
+        } else {
+            filter.add("");
+        }
 
-        model.addAttribute("locations", locationService.getAll(filter, page, size));
+        if (params.containsKey("status") && params.get("status") != null && !params.get("status").isEmpty()) {
+            filter.add(params.get("status"));
+        } else {
+            filter.add("");
+        }
+
+        logger.info("Filters: {}", filter);
+
+
+        String filtersQueryString = params.entrySet().stream()
+                .filter(entry -> !entry.getKey().equals("page") && !entry.getKey().equals("size"))
+                .map(entry -> entry.getKey() + "=" + entry.getValue())
+                .collect(Collectors.joining("&"));
+
+
+        List<Location> locations = locationService.getAll(filter, page, size);
+        int totalItems = locationService.getTotalCount(filter);
+        int totalPages = (int) Math.ceil((double) totalItems / size);
+
+
+        model.addAttribute("locations", locations);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("filters", filtersQueryString);
+
         return "locations";
     }
 

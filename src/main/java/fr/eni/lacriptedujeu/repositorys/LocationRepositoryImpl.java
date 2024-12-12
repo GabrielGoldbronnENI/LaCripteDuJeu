@@ -88,6 +88,26 @@ public class LocationRepositoryImpl implements LocationRepository {
         return jdbcTemplate.query(sql.toString(), new LocationRowMapper(jdbcTemplate), params.toArray());
     }
 
+    public int getTotalCount(List<String> filters) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM locations WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        String[] columns = {"copy_id", "user_id", "rental_status_id"};
+
+        if (filters != null && !filters.isEmpty()) {
+            for (int i = 0; i < filters.size(); i++) {
+                String filter = filters.get(i);
+                if (filter != null && !filter.isEmpty()) {
+                    sql.append(" AND ").append(columns[i]).append(" = ?");
+                    params.add(Integer.parseInt(filter));
+                }
+            }
+        }
+
+        return jdbcTemplate.queryForObject(sql.toString(), params.toArray(), Integer.class);
+    }
+
+
 
     public Location getById(int locationID) {
         String sql = "SELECT * FROM locations WHERE location_id=?";

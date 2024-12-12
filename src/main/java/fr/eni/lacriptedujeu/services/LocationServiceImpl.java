@@ -42,6 +42,10 @@ public class LocationServiceImpl implements LocationService {
         }
     }
 
+    public int getTotalCount(List<String> filters) {
+        return locationRepository.getTotalCount(filters);
+    }
+
     public Location getById(int productID) {
         Location location = locationRepository.getById(productID);
         if (location == null) {

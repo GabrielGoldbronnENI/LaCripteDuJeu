@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/copies")
@@ -61,44 +63,40 @@ public class CopyController {
 
     @GetMapping
     public String getAllCopies(
-            @RequestParam(required = false) Boolean status,
-            @RequestParam(required = false) Integer productID,
+            @RequestParam Map<String, String> params,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "50") int size,
             Model model
     ) {
         model.addAttribute("products", productService.getAll(null, 0, 9000));
-        logger.info("Getting all copies with filters - status: {}, productID: {}", status, productID);
-
-        model.addAttribute("productID", productID);
-        model.addAttribute("status", status);
+        logger.info("Getting all copies with filters - params: {}", params);
 
         List<String> filters = new ArrayList<>();
-        if (productID != null) {
-            filters.add(String.valueOf(productID));
-        } else {
-            filters.add("");
-        }
+        filters.add(params.getOrDefault("productID", ""));
+        filters.add(params.getOrDefault("status", ""));
 
-        if (status != null) {
-            filters.add(String.valueOf(status));
-        } else {
-            filters.add("");
-        }
 
-        // Fetch copies and metadata
         List<Copy> copies = copyService.getAll(filters, page, size);
         int totalItems = copyService.getTotalCount(filters);
         int totalPages = (int) Math.ceil((double) totalItems / size);
 
-        // Add pagination data to the model
+
         model.addAttribute("copies", copies);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
         model.addAttribute("totalPages", totalPages);
 
+        String filtersQueryString = params.entrySet().stream()
+                .filter(entry -> !entry.getKey().equals("page") && !entry.getKey().equals("size"))
+                .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty()) // Exclure les valeurs nulles ou vides
+                .map(entry -> entry.getKey() + "=" + entry.getValue())
+                .collect(Collectors.joining("&"));
+
+        model.addAttribute("filters", filtersQueryString);
         return "copies";
     }
+
+
 
     @GetMapping("/{copyID}")
     public String getCopy(@PathVariable int copyID, Model model) {

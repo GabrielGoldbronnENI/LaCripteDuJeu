@@ -83,6 +83,7 @@
     </tr>
     </tbody>
 </table>
+<div th:replace="fragments/pagination :: paginationFragment(size=${size}, page=${page}, totalPages=${totalPages}, filters=${filters}, pageName='locations')"></div>
 </body>
 </html>
 <script src="/js/theme.js"></script>
