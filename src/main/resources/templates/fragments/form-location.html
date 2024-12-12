@@ -23,7 +23,7 @@
                 <option th:text="'Veuillez sélectionner un exemplaire'" disabled selected></option>
                 <option th:each="copy : ${copies}"
                         th:value="${copy.copyID}"
-                        th:text="${copy.copyID} + ' : ' + ${copy.barcode}"
+                        th:text="${copy.barcode}"
                         th:selected="${location.copy?.copyID == copy.copyID}">
                 </option>
             </select>

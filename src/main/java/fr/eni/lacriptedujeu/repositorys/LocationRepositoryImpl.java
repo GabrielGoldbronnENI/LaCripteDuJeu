@@ -1,5 +1,6 @@
 package fr.eni.lacriptedujeu.repositorys;
 
+import fr.eni.lacriptedujeu.exceptions.LimitException;
 import fr.eni.lacriptedujeu.exceptions.LinkedException;
 import fr.eni.lacriptedujeu.exceptions.NotFoundException;
 import fr.eni.lacriptedujeu.models.Genre;
@@ -27,7 +28,23 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     @Transactional
     public void save(Location location) {
-        String productSql = "INSERT INTO locations(price, user_id, rental_status_id, copy_id) VALUES (?, ?, ?, ?) RETURNING location_id";
+        // Vérification du nombre de locations en cours pour cet utilisateur
+        String limitSql = """
+            SELECT COUNT(*)
+            FROM locations l
+            WHERE l.user_id = ? AND l.rental_status_id = 1;
+            """;
+        Integer count = jdbcTemplate.queryForObject(limitSql, Integer.class, location.getUser().getUserID());
+
+        if (count != null && count >= 5) {
+            throw new LimitException("Un client ne peut avoir que 5 locations en cours");
+        }
+
+        // Insertion dans la table 'locations'
+        String productSql = """
+            INSERT INTO locations(price, user_id, rental_status_id, copy_id) 
+            VALUES (?, ?, ?, ?) RETURNING location_id
+            """;
         Integer locationID = jdbcTemplate.queryForObject(
                 productSql,
                 Integer.class,
@@ -37,9 +54,11 @@ public class LocationRepositoryImpl implements LocationRepository {
                 location.getCopy().getCopyID()
         );
 
+        // Insertion dans la table 'user_location'
         String userSql = "INSERT INTO user_location(user_id, location_id) VALUES (?, ?)";
         jdbcTemplate.update(userSql, location.getUser().getUserID(), locationID);
 
+        // Insertion dans la table 'copy_location'
         String copySql = "INSERT INTO copy_location(copy_id, location_id) VALUES (?, ?)";
         jdbcTemplate.update(copySql, location.getCopy().getCopyID(), locationID);
     }

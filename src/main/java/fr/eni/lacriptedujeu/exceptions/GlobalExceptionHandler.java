@@ -25,6 +25,14 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
+    @ExceptionHandler(LimitException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleEntityLimitException(LimitException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("errorPageTitle", "409 Conflict");
+        return "error";
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleRuntimeException(RuntimeException ex, Model model) {

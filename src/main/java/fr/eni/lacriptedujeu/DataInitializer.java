@@ -27,7 +27,7 @@ public class DataInitializer {
         Random random = new Random();
 
         long initialBarcode = 1515151515250L;
-        int productCount = 10000;
+        int productCount = 1000;
 
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO copy (barcode, status, product_id) VALUES ");
