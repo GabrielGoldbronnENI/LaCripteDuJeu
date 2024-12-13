@@ -28,7 +28,6 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     @Transactional
     public void save(Location location) {
-        // Vérification du nombre de locations en cours pour cet utilisateur
         String limitSql = """
             SELECT COUNT(*)
             FROM locations l
@@ -40,7 +39,6 @@ public class LocationRepositoryImpl implements LocationRepository {
             throw new LimitException("Un client ne peut avoir que 5 locations en cours");
         }
 
-        // Insertion dans la table 'locations'
         String productSql = """
             INSERT INTO locations(price, user_id, rental_status_id, copy_id) 
             VALUES (?, ?, ?, ?) RETURNING location_id
@@ -54,11 +52,9 @@ public class LocationRepositoryImpl implements LocationRepository {
                 location.getCopy().getCopyID()
         );
 
-        // Insertion dans la table 'user_location'
         String userSql = "INSERT INTO user_location(user_id, location_id) VALUES (?, ?)";
         jdbcTemplate.update(userSql, location.getUser().getUserID(), locationID);
 
-        // Insertion dans la table 'copy_location'
         String copySql = "INSERT INTO copy_location(copy_id, location_id) VALUES (?, ?)";
         jdbcTemplate.update(copySql, location.getCopy().getCopyID(), locationID);
     }

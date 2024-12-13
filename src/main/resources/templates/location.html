@@ -17,6 +17,7 @@
 <body class="p-5">
 <h1>Locations :</h1>
 <h1>[[${location.locationID}]]</h1>
+<h1>[[${location.price}]]€</h1>
 
 <a href="/locations" class="btn btn-primary">Tout les locations</a>
 <a th:href="@{/locations/delete/{locationID}(locationID=${location.locationID})}" class="btn btn-danger">Supprimer la location</a>

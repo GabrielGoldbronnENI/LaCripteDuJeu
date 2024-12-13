@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +32,7 @@ public class LocationController {
     private final ProductService productService;
 
     @Autowired
-    public LocationController(LocationService locationService,UserService userService, CopyService copyService, ProductService productService) {
+    public LocationController(LocationService locationService, UserService userService, CopyService copyService, ProductService productService) {
         this.locationService = locationService;
         this.userService = userService;
         this.copyService = copyService;
@@ -39,7 +42,7 @@ public class LocationController {
 
     @PostMapping
     public String createLocation(@ModelAttribute @Valid Location location, BindingResult bindingResult, Model model) {
-        model.addAttribute("users", userService.getAll(null, 0,9000));
+        model.addAttribute("users", userService.getAll(null, 0, 9000));
         model.addAttribute("copies", copyService.getAllAvailable());
 
         logger.info("Creating product: {}", location);
@@ -126,7 +129,7 @@ public class LocationController {
     public String getLocation(@PathVariable int locationsID, Model model) {
         Location location = locationService.getById(locationsID);
         model.addAttribute("location", location);
-        model.addAttribute("users", userService.getAll(null, 0,9000));
+        model.addAttribute("users", userService.getAll(null, 0, 9000));
         List<Copy> copies = copyService.getAllAvailable();
         copies.add(copyService.getById(location.getCopy().getCopyID()));
 
@@ -144,19 +147,49 @@ public class LocationController {
             return "location";
         }
 
-        logger.info("updating product: {}", location);
+        logger.info("updating location: {}", location);
+        Location previewLocation = locationService.getById(locationID);
 
-        try {
-            locationService.update(locationID, location);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "location";
+        location.setPrice(previewLocation.getPrice());
+        location.setCreatedAt(previewLocation.getCreatedAt());
+
+        if (previewLocation.getRentalStatusID() == 1 && location.getRentalStatusID() == 2) {
+            int nbDays = LocalDate.now().plusDays(2).compareTo(location.getCreatedAt().toLocalDate());
+            BigDecimal finalPrice = previewLocation.getPrice().multiply(BigDecimal.valueOf(nbDays));
+
+            logger.info("Updating price: {}", finalPrice);
+            logger.info("Updating nbDays: {}", nbDays);
+
+            model.addAttribute("location", location);
+            model.addAttribute("finalPrice", finalPrice);
+
+            return "payment";
+        } else {
+            try {
+                locationService.update(locationID, location);
+            } catch (Exception e) {
+                model.addAttribute("errorMessage", e.getMessage());
+                return "location";
+            }
+
+            return "redirect:/locations";
         }
-
-        return "redirect:/locations";
     }
 
-    @GetMapping("/delete/{locationID}")
+    @PostMapping("/update/payment/{locationID}")
+    public String updatePayment(@PathVariable int locationID, @ModelAttribute Location location) {
+
+
+        logger.info("updating payment location: {}", location);
+        logger.info("updating payment locationID: {}", locationID);
+
+        locationService.update(locationID, location);
+        return "redirect:/locations";
+
+    }
+
+
+        @GetMapping("/delete/{locationID}")
     public String delete(@PathVariable int locationID) {
         locationService.delete(locationID);
         return "redirect:/locations";
